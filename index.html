@@ -258,6 +258,8 @@
             singlePin;
 
         map = L.map('map', { maxZoom: 16 }).setView([15, -35], 2);
+      
+        var hash = new L.Hash(map);
 
         // Use Esri Streets or GrayLables
         //L.esri.basemapLayer('Gray').addTo(map);
@@ -292,14 +294,14 @@
             // Format popups
             onEachFeature: function (geojson, marker) {
                 var url = geojson.properties.URL ? "<a target='_blank' href='" + geojson.properties.URL.toString() + "'>" + geojson.properties.Name + "</a>" : geojson.properties.Name,
-                    desc =  geojson.properties.Description,
+                    desc =  geojson.properties.Program,
                     dateTime = new Date(geojson.properties.DateTime),
                     min = dateTime.getMinutes() ? dateTime.getMinutes() : "00",
                     hr = dateTime.getUTCHours(),
                     ampm = hr < 12 ? "AM" : "PM";
                 hr = hr > 12 ? hr - 12 : hr;
                 dateTime = dateTime.toDateString() + ", " + hr + ":" + min + " " + ampm;
-                marker.bindPopup("<h2>" + url + "</h2><p>" +  desc + "<br>" + geojson.properties.Type + " " + geojson.properties.Audience + "</p></div><div class='popup-bottom'><p>DATE: " + dateTime + "</p><p>ADDRESS: " + geojson.properties.Address + "</p><div class='popup-host'><p>HOST: <a target='_top' href='mailto:" + geojson.properties.Email + "?subject=GIS Day Event'>" + geojson.properties.Organization + "</a></p></div></div>");
+                marker.bindPopup("<h2>" + url + "</h2><p>" +  desc + "<br>" + "</p></div><div class='popup-bottom'><p>Place: " + geojson.properties.Place + "</p><div class='popup-host'><p>ORGANIZER: <a target='_top' href=''" + geojson.properties.URL + "</a></p></div></div>");
                 // store data
                 marker.properties = {};
                 marker.properties.Name = geojson.properties.Name;
